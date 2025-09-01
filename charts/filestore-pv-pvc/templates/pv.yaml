@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ default (printf "%s-pv" (include "filestore-pv-pvc.fullname" .)) .Values.pv.name }}
+spec:
+  capacity:
+    storage: {{ .Values.storage.size }}
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: {{ .Values.storage.reclaimPolicy }}
+  storageClassName: {{ .Values.storage.storageClassName }}
+  nfs:
+    path: {{ .Values.nfs.path }}
+    server: {{ .Values.nfs.server }}

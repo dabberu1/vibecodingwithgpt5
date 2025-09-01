@@ -1,0 +1,6 @@
+apiVersion: v2
+name: filestore-pv-pvc
+description: Helm chart for provisioning a PersistentVolume and PersistentVolumeClaim backed by Google Cloud Filestore.
+type: application
+version: 0.1.0
+appVersion: "1.0"
