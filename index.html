@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Workout Countdown</title>
+</head>
+<body>
+<h1>Workout Countdown</h1>
+<script>
+function speakAsync(text) {
+  return new Promise(resolve => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.onend = resolve;
+    speechSynthesis.speak(utterance);
+  });
+}
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+async function runSet(current, total) {
+  await speakAsync("Set " + current);
+  for (let count = 1; count <= 12; count++) {
+    if (count === 4 || count === 8) {
+      const first = current % 2 === 0 ? "right leg" : "left leg";
+      const second = current % 2 === 0 ? "left leg" : "right leg";
+      await speakAsync(first);
+      await delay(15000);
+      await speakAsync(second);
+      await delay(15000);
+    } else {
+      await speakAsync(String(count));
+      await delay(30000);
+    }
+  }
+  if (current < total) {
+    await runSet(current + 1, total);
+  } else {
+    await speakAsync("Workout complete");
+  }
+}
+window.addEventListener('load', () => {
+  const input = prompt('Enter number of sets');
+  const sets = parseInt(input, 10);
+  if (!isNaN(sets) && sets > 0) {
+    runSet(1, sets);
+  }
+});
+</script>
+</body>
+</html>
